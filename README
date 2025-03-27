@@ -1,9 +1,47 @@
+on all hosts install:
+
+sudo apt install -y sudo apt install python3.12-venv
+python3 -m venv myenv
+source myenv/bin/activate
+pip install apschedule flask requests
+
+start Application:
+
+on master python mastechain.py
+
+on nodes:
+
+on the first node: python sidechain sidechain1 5001  ( first node in chain sidechan1)
+on the first node: python sidechain sidechain2 5002  ( second node in chain sidechan1)
+on the second node: python sidechain sidechain1 5001 (second node in same chain sidechain1)
+on the third node: python sidechain sidechain2 5001 (first node in chain sidechain2)
+on the third node: python sidechain sidechain1 5002 (thrid node in chain sidechain1)
+on the third node: python sidechain sidechain1 5003 (fourth node in chain sidechain1)
+
+
+Register sidechain:
+
 curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-1", "node_url": "http://192.168.122.12:5001"}'
 curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-1", "node_url": "http://192.168.122.13:5001"}'
 curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-2", "node_url": "http://192.168.122.14:5001"}'
+
+Regsiter nodes in sidechains:
+
 curl -X POST http://192.168.122.12:5001/register_node -H "Content-Type: application/json" -d '{"node_url": "http://192.168.122.13:5001"}'
 curl -X POST http://192.168.122.13:5001/register_node -H "Content-Type: application/json" -d '{"node_url": "http://192.168.122.12:5001"}'
+
+Add block to sidechain
+
 curl -X POST http://192.168.122.12:5001/mine -H "Content-Type: application/json" -d '{"data": "Test block"}'
+
+Get block from sidechain
+
 curl -X GET http://192.168.122.12:5001/blocks
+
+Get sidechaines from master
+
 curl -X GET http://192.168.122.11:4000/get_sidechains
+
+Get sync sidechains from master
+
 curl -X GET http://192.168.122.11:4000/sync_sidechains
