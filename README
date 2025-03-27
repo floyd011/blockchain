@@ -1,0 +1,9 @@
+curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-1", "node_url": "http://192.168.122.12:5001"}'
+curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-1", "node_url": "http://192.168.122.13:5001"}'
+curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-2", "node_url": "http://192.168.122.14:5001"}'
+curl -X POST http://192.168.122.12:5001/register_node -H "Content-Type: application/json" -d '{"node_url": "http://192.168.122.13:5001"}'
+curl -X POST http://192.168.122.13:5001/register_node -H "Content-Type: application/json" -d '{"node_url": "http://192.168.122.12:5001"}'
+curl -X POST http://192.168.122.12:5001/mine -H "Content-Type: application/json" -d '{"data": "Test block"}'
+curl -X GET http://192.168.122.12:5001/blocks
+curl -X GET http://192.168.122.11:4000/get_sidechains
+curl -X GET http://192.168.122.11:4000/sync_sidechains
