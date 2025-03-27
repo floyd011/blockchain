@@ -3,7 +3,7 @@ on all hosts install:
 sudo apt install -y sudo apt install python3.12-venv
 python3 -m venv myenv
 source myenv/bin/activate
-pip install apschedule flask requests
+pip install apscheduler flask requests
 
 start Application:
 
@@ -27,8 +27,7 @@ curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: app
 
 Regsiter nodes in sidechains:
 
-curl -X POST http://192.168.122.12:5001/register_node -H "Content-Type: application/json" -d '{"node_url": "http://192.168.122.13:5001"}'
-curl -X POST http://192.168.122.13:5001/register_node -H "Content-Type: application/json" -d '{"node_url": "http://192.168.122.12:5001"}'
+./getnodes.sh Sidechain-1 ( for Sidechain-1 generate P2P network nodes from curl -X GET http://192.168.122.11:4000/get_sidechains after curl -X POST http://192.168.122.11:4000/register_sidechain)
 
 Add block to sidechain
 
