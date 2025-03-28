@@ -1,46 +1,95 @@
-on all hosts install:
 
-sudo apt install -y sudo apt install python3.12-venv
-python3 -m venv myenv
-source myenv/bin/activate
-pip install apscheduler flask requests
+Ovaj **multi-chain blockchain sistem** ima sledeće komponente:  
 
-start Application:
+1. **Master Chain** – centralni entitet koji vodi evidenciju o svim sidechain-ovima i njihovim čvorovima.  
+   - Registrovanje novih sidechain-ova  
+   - Čuvanje metapodataka (endpoint adrese, status)  
+   - Orkestracija zahteva između korisnika i sidechain-ova  
 
-on master python mastechain.py
+2. **Sidechain-ovi** – individualni blockchain-ovi sa svojom SQLite bazom.  
+   - Svaki sidechain može imati **više čvorova (node-ova)**  
+   - Perzistentno skladišti podatke specifične za taj lanac  
+   - Sinhronizuje podatke između čvorova  
 
-on nodes:
+3. **Čvorovi (Node-ovi)** – instanci svakog sidechain-a koje rade na različitim portovima.  
+   - Svaki čvor može prihvatati transakcije i sinhronizovati ih sa drugim čvorovima u istom sidechain-u  
+   - Povezan sa SQLite bazom koja čuva njegovu lokalnu kopiju blockchain-a  
 
-on the first node: python sidechain sidechain1 5001  ( first node in chain sidechan1)
-on the first node: python sidechain sidechain2 5002  ( second node in chain sidechan1)
-on the second node: python sidechain sidechain1 5001 (second node in same chain sidechain1)
-on the third node: python sidechain sidechain2 5001 (first node in chain sidechain2)
-on the third node: python sidechain sidechain1 5002 (thrid node in chain sidechain1)
-on the third node: python sidechain sidechain1 5003 (fourth node in chain sidechain1)
+---
+
+### **Struktura dijagrama**  
+
+1. **Master Chain na vrhu**  
+   - Prikazan kao centralna komponenta  
+   - Povezan sa više sidechain-ova  
+
+2. **Sidechain-ovi u sredini**  
+   - Svaki sidechain ima svoju SQLite bazu  
+   - Više čvorova unutar svakog sidechain-a  
+
+3. **Čvorovi (node-ovi) na dnu**  
+   - Svaki node prikazan kao pojedinačna instanca koja sinhronizuje blokove  
+
+### **Priprema okruzenja**
+
+   na svim hostovima instalirati:
+
+   sudo apt install -y sudo apt install python3.12-venv
+   python3 -m venv myenv
+   source myenv/bin/activate
+   pip install apscheduler flask requests
+   iskopirati na sve hostove: 
+      
+      mastercahain.py
+      blockhain.py
+      sidechain.py
+
+**Start aplikacije (na primer)**
+
+   na master-u:
+      
+      python mastechain.py
+
+   na nodovima(hostovima):
+
+      prvi nod: 
+
+          python sidechain sidechain1 5001  (ime mreze i port cvora time se formira jedinstveno ime za loklanu bazu imemreze-port.db)
+
+      drugi nod: 
+
+          python sidechain sidechain1 5001 
+
+      treci nod: 
+
+          python sidechain sidechain2 5001 
+          python sidechain sidechain1 5002 
+          python sidechain sidechain1 5003 
 
 
-Register sidechain:
+**Registrovanje sidechain-ova**
 
 curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-1", "node_url": "http://192.168.122.12:5001"}'
 curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-1", "node_url": "http://192.168.122.13:5001"}'
 curl -X POST http://192.168.122.11:4000/register_sidechain -H "Content-Type: application/json" -d '{"name": "Sidechain-2", "node_url": "http://192.168.122.14:5001"}'
 
-Regsiter nodes in sidechains:
+**Regsitrovanje nodova u sidechain mrezi po imenu mreze:**
 
-./getnodes.sh Sidechain-1 ( for Sidechain-1 generate P2P network nodes from curl -X GET http://192.168.122.11:4000/get_sidechains after curl -X POST http://192.168.122.11:4000/register_sidechain)
+     ./regster_nodes.sh Sidechain-1 ( za Sidechain-1 generise P2P mrezu nodova pozivom: curl -X GET http://192.168.122.11:4000/get_sidechains
+                                      a prethodno je registrovana mreza na novom nodu/portu pozivom curl -X POST http://192.168.122.11:4000/register_sidechain)
 
-Add block to sidechain
+**Dodavanje block-a u sidechain**
 
-curl -X POST http://192.168.122.12:5001/mine -H "Content-Type: application/json" -d '{"data": "Test block"}'
+     curl -X POST http://192.168.122.12:5001/mine -H "Content-Type: application/json" -d '{"data": "Test block"}'
 
-Get block from sidechain
+**Citanje block-a from sidechain sa noda**
 
-curl -X GET http://192.168.122.12:5001/blocks
+     curl -X GET http://192.168.122.12:5001/blocks
 
-Get sidechaines from master
+**Citanje sidechain-ova sa master-a**
 
-curl -X GET http://192.168.122.11:4000/get_sidechains
+     curl -X GET http://192.168.122.11:4000/get_sidechains
 
-Get sync sidechains from master
+**Citanje sinhronizovanih sidechain-ova i svih blokova sa master-a**
 
-curl -X GET http://192.168.122.11:4000/sync_sidechains
+     curl -X GET http://192.168.122.11:4000/sync_sidechains

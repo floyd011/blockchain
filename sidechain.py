@@ -94,6 +94,7 @@ def register_node():
 
 def sync_with_peers():
     """Periodično proverava nove blokove od drugih čvorova"""
+    load_peers()
     with sqlite3.connect(DB_PATH) as conn:
         c = conn.cursor()
         c.execute("SELECT hash FROM blocks")
