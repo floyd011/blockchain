@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile>
+  <diagram name="Multi-Chain Blockchain Architecture">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Master Chain -->
+        <mxCell id="mc" value="Master Chain" style="shape=ellipse;fillColor=#d0e8ff" vertex="1" parent="1">
+          <mxGeometry x="300" y="50" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Sidechains -->
+        <mxCell id="sc1" value="Sidechain 1" style="shape=ellipse;fillColor=#a8d5ff" vertex="1" parent="1">
+          <mxGeometry x="100" y="200" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="sc2" value="Sidechain 2" style="shape=ellipse;fillColor=#a8d5ff" vertex="1" parent="1">
+          <mxGeometry x="300" y="200" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="sc3" value="Sidechain 3" style="shape=ellipse;fillColor=#a8d5ff" vertex="1" parent="1">
+          <mxGeometry x="500" y="200" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Nodes -->
+        <mxCell id="n1" value="Node 1" style="shape=ellipse;fillColor=#ffd5a8" vertex="1" parent="1">
+          <mxGeometry x="50" y="350" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="n2" value="Node 2" style="shape=ellipse;fillColor=#ffd5a8" vertex="1" parent="1">
+          <mxGeometry x="150" y="350" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="n3" value="Node 3" style="shape=ellipse;fillColor=#ffd5a8" vertex="1" parent="1">
+          <mxGeometry x="300" y="350" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="n4" value="Node 4" style="shape=ellipse;fillColor=#ffd5a8" vertex="1" parent="1">
+          <mxGeometry x="500" y="350" width="100" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Connections (edges) -->
+        <mxCell id="mc-sc1" edge="1" source="mc" target="sc1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="mc-sc2" edge="1" source="mc" target="sc2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="mc-sc3" edge="1" source="mc" target="sc3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="sc1-n1" edge="1" source="sc1" target="n1" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="sc1-n2" edge="1" source="sc1" target="n2" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="sc2-n3" edge="1" source="sc2" target="n3" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="sc3-n4" edge="1" source="sc3" target="n4" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
